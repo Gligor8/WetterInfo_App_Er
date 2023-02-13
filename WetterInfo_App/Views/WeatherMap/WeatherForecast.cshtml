@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Weather";
+}
+
+
+<h1>Weather Forecast</h1>
+
+<div>
+    <div>Enter City Name:</div> <input type="text" id="cityInput" placeholder="City" />
+    <br />
+    <br />
+    <button id="submitBtn">Search</button>
+</div>
+<br />
+<br />
+<div>
+    <h2>Weather Forecast</h2>
+    <table>
+        @*<tr>
+            <td>Weather Symbol Icon <img id="imgWeatherIconUrl" src="" title="Weather Icon" /></td>
+        </tr>*@
+        <tr>
+        <tr>
+            <td>
+                City:
+                <span id="tblCity"></span>
+                
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                Current Temperature:
+                <span id="tblTemp"></span>
+                
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                Minimum Temperature:
+                <span id="tblTempMin"></span>
+                
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                Maximum Temperature:
+                <span id="tblTempMax"></span>
+                
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                Air Pressure:
+                <span id="tblAirPress"></span>
+                
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                Humidity:
+                <span id="tblHumidity"></span>
+                
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                Wind Speed:
+                <span id="tblWindSpeed"></span>
+                
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                Wind Direction:
+                <span id="tblWindDirec"></span>
+                
+            </td>
+
+        </tr>
+        <tr>
+            <td>
+                Cloud Cover Condition:
+                <span id="tblCloudCond"></span>
+                
+            </td>
+
+        </tr>
+    </table>
+</div>
+@section Scripts{
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+    <script>
+        
+    $("#submitBtn").click(function () {    
+
+        var city = $("#cityInput").val();    
+        if (city.length > 0)    
+        {    
+        $.ajax({    
+            url: "https://localhost:44328/WeatherMap/WeatherForecast/" + city,    
+            type: 'Post',
+            dataType = 'json',
+            data = {id = city },
+            success: function (resultValue) {    
+                var data = jQuery.parseJSON(resultValue);    
+                //console.log(data);    
+                $("#tblCity").html(data.City);    
+                   
+                $("#tblTemp").text(data.CurrentTemp);    
+                $("#tblTempMin").text(data.TempMin);    
+                $("#tblTempMax").text(data.TempMax);
+                $("#tblAirPress").text(data.AirPressure);
+
+                $("#tblHumidity").text(data.Humidity);    
+                   
+                $("#tblWindSpeed").text(data.WindSpeed);    
+                $("#tblWindDirec").text(data.WindDirection );    
+                $("#tblCloudCond").text(data.CloudCondition);    
+                //$("#imgWeatherIconUrl").attr("src", "http://openweathermap.org/img/w/" + data.WeatherIcon + ".png");    
+                //data - response from server;    
+            },    
+            faulure: function () {    
+                alert();
+            }    
+        });    
+        }    
+        else    
+        {    
+            alert("City Not Found");    
+        }    
+    });    
+    
+</script>    
+
+
+                
+}
