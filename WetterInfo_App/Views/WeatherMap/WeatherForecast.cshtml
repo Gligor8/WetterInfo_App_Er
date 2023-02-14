@@ -9,21 +9,18 @@
     <div>Enter City Name:</div> <input type="text" id="cityInput" placeholder="City" />
     <br />
     <br />
-    <button id="submitBtn">Search</button>
+    <button id="submitBtn" type="submit">Search</button>
 </div>
 <br />
 <br />
 <div>
-    <h2>Weather Forecast</h2>
+    <h2>Current Weather</h2>
     <table>
-        @*<tr>
-            <td>Weather Symbol Icon <img id="imgWeatherIconUrl" src="" title="Weather Icon" /></td>
-        </tr>*@
         <tr>
         <tr>
             <td>
                 City:
-                <span id="tblCity"></span>
+                <label id="tblCity"></label>
                 
             </td>
 
@@ -31,7 +28,7 @@
         <tr>
             <td>
                 Current Temperature:
-                <span id="tblTemp"></span>
+                <label id="tblTemp"></label>
                 
             </td>
 
@@ -39,7 +36,7 @@
         <tr>
             <td>
                 Minimum Temperature:
-                <span id="tblTempMin"></span>
+                <label id="tblTempMin"></label>
                 
             </td>
 
@@ -47,7 +44,7 @@
         <tr>
             <td>
                 Maximum Temperature:
-                <span id="tblTempMax"></span>
+                <label id="tblTempMax"></label>
                 
             </td>
 
@@ -55,7 +52,7 @@
         <tr>
             <td>
                 Air Pressure:
-                <span id="tblAirPress"></span>
+                <label id="tblAirPress"></label>
                 
             </td>
 
@@ -63,7 +60,7 @@
         <tr>
             <td>
                 Humidity:
-                <span id="tblHumidity"></span>
+                <label id="tblHumidity"></label>
                 
             </td>
 
@@ -71,7 +68,7 @@
         <tr>
             <td>
                 Wind Speed:
-                <span id="tblWindSpeed"></span>
+                <label id="tblWindSpeed"></label>
                 
             </td>
 
@@ -79,7 +76,7 @@
         <tr>
             <td>
                 Wind Direction:
-                <span id="tblWindDirec"></span>
+                <label id="tblWindDirec"></label>
                 
             </td>
 
@@ -87,7 +84,7 @@
         <tr>
             <td>
                 Cloud Cover Condition:
-                <span id="tblCloudCond"></span>
+                <label id="tblCloudCond"></label>
                 
             </td>
 
@@ -103,33 +100,29 @@
     $("#submitBtn").click(function () {    
 
         var city = $("#cityInput").val();    
-        if (city.length > 0)    
+        if (city !== "" || city !== null)    
         {    
         $.ajax({    
-            url: "https://localhost:44328/WeatherMap/WeatherForecast/" + city,    
+            url: "https://localhost:44328/WeatherMap/GetForecast?city=" + city,    
             type: 'Post',
             dataType = 'json',
             data = {id = city },
             success: function (resultValue) {    
-                var data = jQuery.parseJSON(resultValue);    
-                //console.log(data);    
-                $("#tblCity").html(data.City);    
-                   
+                var data = JSON.parse(resultValue);
+
+                $("#tblCity").html(data.City);     
                 $("#tblTemp").text(data.CurrentTemp);    
                 $("#tblTempMin").text(data.TempMin);    
                 $("#tblTempMax").text(data.TempMax);
                 $("#tblAirPress").text(data.AirPressure);
-
                 $("#tblHumidity").text(data.Humidity);    
-                   
                 $("#tblWindSpeed").text(data.WindSpeed);    
                 $("#tblWindDirec").text(data.WindDirection );    
                 $("#tblCloudCond").text(data.CloudCondition);    
-                //$("#imgWeatherIconUrl").attr("src", "http://openweathermap.org/img/w/" + data.WeatherIcon + ".png");    
-                //data - response from server;    
+                  
             },    
             faulure: function () {    
-                alert();
+                alert("Failed request");
             }    
         });    
         }    
@@ -138,7 +131,7 @@
             alert("City Not Found");    
         }    
     });    
-    
+
 </script>    
 
 
