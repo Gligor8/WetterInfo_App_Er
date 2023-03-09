@@ -35,15 +35,15 @@ namespace WetterInfo_App.Controllers
         
 
         [HttpPost]
-        public async Task<JsonResult> GetForecast(string city)
+        public async Task<JsonResult> GetForecast(string city) 
         {
-            string apiKey = "8113fcc5a7494b0518bd91ef3acc074";
-            string url = string.Format("https://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}", city, apiKey);
-            
+            string apiKey = "89f4d8c68709ae67c4ff7feabe73dd79";
+            string url = string.Format("https://api.openweathermap.org/data/2.5/weather?q={0}&appid={1}&units=metric", city, apiKey);
+
             using (HttpClient client = new HttpClient())
             {
                 var response = client.GetAsync(url).Result;
-                
+
                 var contentStream = await response.Content.ReadAsStreamAsync();
                 var weatherResponse = await JsonSerializer.DeserializeAsync<Root>(contentStream);
 
@@ -59,12 +59,12 @@ namespace WetterInfo_App.Controllers
                 result.WindDirection = weatherResponse.wind.deg;
                 result.CloudCondition = weatherResponse.clouds.all;
 
-                
+
 
                 _responseRepository.Add(result);
                 return Json(result);
 
-                
+
             }
         }
     }
